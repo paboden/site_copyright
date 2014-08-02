@@ -1,0 +1,4 @@
+name = Site Copyright
+description = "Creates a block to display the configurable site copyright."
+core = 7.x
+configure = admin/config/system/site_copyright
