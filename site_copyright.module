@@ -1,42 +1,20 @@
 <?php
 
 /**
- * Implements hook_block_info().
+ * Implements hook_menu().
  */
-function site_copyright_block_info() {
-  $blocks['footer'] = array(
-    'info' => t('Site Copyright'),
+function site_copyright_menu() {
+  $items['admin/config/system/site_copyright'] = array(
+    'title' => t('Site Copyright'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('site_copyright_configure'),
+    // Use the default/standard site configuration permission.
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'site_copyright.admin.inc',
+    'file path' => drupal_get_path('module', 'site_copyright'),
   );
-  return $blocks;
-}
-
-/**
- * Implements hook_block_view().
- */
-function site_copyright_block_view($delta = '') {
-  $block = array();
-
-  // Depending on the specified delta return the correct block content.
-  // Note: This switch is not required if you have only one block, you can
-  // simply return the the block array
-  switch ($delta) {
-    case 'footer':
-      // We don't want the block to have a title.
-      $block['subject'] = '<none>';
-      // Using a Renderable Array rather than a HTML-returning callback function.
-      $block['content'] = array(
-        // Specify the theme function to use.
-        '#theme' => 'site_copyright',
-        // Provide variable values as specified in hook_theme.
-        '#copyright' => check_plain(variable_get('site_copyright_copyright', 'Company Name')),
-        '#copyright_start' => check_plain(variable_get('site_copyright_copyright_start', '1885')),
-        '#copyright_end' => format_date(time(), 'custom' , 'Y'),
-        '#phone' => check_plain(variable_get('site_copyright_phone', '555-867-5309')),
-        '#address' => check_plain(variable_get('site_copyright_address', '123 Main St. North Pole')),
-      );
-      break;
-  }
-  return $block;
+  return $items;
 }
 
 /**
@@ -55,72 +33,46 @@ function site_copyright_theme() {
         'address' => NULL,
       ),
       // Use a template file called site_copyright.tpl.php
-      'template' => 'site_copyright',
+      'template' => 'templates/site_copyright',
     ),
   );
 }
 
 /**
- * Implements hook_menu().
+ * Implements hook_block_info().
  */
-function site_copyright_menu() {
-  $items['admin/config/administration/example_footer'] = array(
-    'title' => 'Example site - footer',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('site_copyright_configure'),
-    // Use the default/standard site configuration permission.
-    'access arguments' => array('administer site configuration'),
-    'type' => MENU_NORMAL_ITEM,
+function site_copyright_block_info() {
+  $blocks['site_copyright'] = array(
+    'info' => t('Site Copyright'),
   );
-  return $items;
+  return $blocks;
 }
 
 /**
- * Creates/returns a form to configure the block's variables.
- *
- * @param array $form
- * @param array $form_state
- * @return array
+ * Implements hook_block_view().
  */
-function site_copyright_configure($form, &$form_state) {
-  $form['site_copyright_copyright'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Site copyright owner'),
-    '#description' => t('The company/organization/person/entity to show as copyright holder.'),
-    '#default_value' => variable_get('site_copyright_copyright', 'Company Name'),
-    '#size' => 60,
-    '#maxlength' => 120,
-    '#required' => TRUE,
-  );
+function site_copyright_block_view($delta = '') {
+  $block = array();
 
-  $form['site_copyright_copyright_start'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Site copyright start date'),
-    '#description' => t('The start date for copyright of the content; end date is assumed to be the current year.'),
-    '#default_value' => variable_get('site_copyright_copyright_start', '1955'), // Got it Marty?
-    '#size' => 4,
-    '#maxlength' => 4,
-    '#required' => FALSE,
-  );
-  $form['site_copyright_phone'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Site phone number'),
-    '#description' => t('The phone number of the copyright holder.'),
-    '#default_value' => variable_get('site_copyright_phone', '555-867-5309'),
-    '#size' => 20,
-    '#maxlength' => 20,
-    '#required' => FALSE,
-  );
-  $form['site_copyright_address'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Site street address'),
-    '#description' => t('The street address of the copyright holder.'),
-    '#default_value' => variable_get('site_copyright_address', '123 Main St. North Pole'),
-    '#size' => 120,
-    '#maxlength' => 120,
-    '#required' => FALSE,
-  );
-
-  // Use system_settings_form() to automate saving configuration variables.
-  return system_settings_form($form);
+  // Depending on the specified delta return the correct block content.
+  // Note: This switch is not required if you have only one block, you can
+  // simply return the the block array
+  switch ($delta) {
+    case 'site_copyright':
+      // We don't want the block to have a title.
+      $block['subject'] = '<none>';
+      // Using a Renderable Array rather than a HTML-returning callback function.
+      $block['content'] = array(
+        // Specify the theme function to use.
+        '#theme' => 'site_copyright',
+        // Provide variable values as specified in hook_theme.
+        '#copyright' => check_plain(variable_get('site_copyright_copyright', 'Company Name')),
+        '#copyright_start' => check_plain(variable_get('site_copyright_copyright_start', '1885')),
+        '#copyright_end' => format_date(time(), 'custom' , 'Y'),
+        '#phone' => check_plain(variable_get('site_copyright_phone', '555-867-5309')),
+        '#address' => check_plain(variable_get('site_copyright_address', '123 Main St. North Pole')),
+      );
+      break;
+  }
+  return $block;
 }
