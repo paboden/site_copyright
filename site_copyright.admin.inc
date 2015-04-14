@@ -12,21 +12,21 @@ function site_copyright_configure($form, &$form_state) {
   $lang = ($language->language == 'en') ? '' : '_' . $language->language;
   $lang_name = ($language->language == 'en') ? '' : ' - ' . $language->name;
 
-  $form['site_copyright_copyright' . $lang] = array(
+  $form['site_copyright_owner' . $lang] = array(
     '#type' => 'textfield',
     '#title' => t('Site copyright owner') . $lang_name,
-    '#description' => t('The company/organization/person/entity to show as copyright holder.'),
-    '#default_value' => variable_get('site_copyright_copyright' . $lang, 'Copyright holder'),
+    '#description' => t('The company/organization/person/entity to show as copyright owner.'),
+    '#default_value' => variable_get('site_copyright_owner' . $lang, 'Copyright owner'),
     '#size' => 60,
     '#maxlength' => 120,
     '#required' => TRUE,
   );
 
-  $form['site_copyright_copyright_start'] = array(
+  $form['site_copyright_start'] = array(
     '#type' => 'textfield',
     '#title' => t('Site copyright start date'),
     '#description' => t('The start date for copyright of the content; end date is assumed to be the current year.'),
-    '#default_value' => variable_get('site_copyright_copyright_start', ''),
+    '#default_value' => variable_get('site_copyright_start', ''),
     '#size' => 4,
     '#maxlength' => 4,
     '#required' => FALSE,

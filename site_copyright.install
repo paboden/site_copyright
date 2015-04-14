@@ -1,0 +1,12 @@
+<?php
+/**
+ * Implements hook_uninstall()
+ *
+ * Remove variables used.
+ */
+function site_copyright_uninstall() {
+  variable_del('site_copyright_owner');
+  variable_del('site_copyright_start');
+  variable_del('site_copyright_phone');
+  variable_del('site_copyright_address');
+}

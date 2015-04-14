@@ -1,19 +1,32 @@
 <?php
 
 /**
+ * Implements hook_permission().
+ */
+function site_copyright_permission() {
+  return array(
+    'administer site copyright' => array(
+      'title' => t('Administer site copyright'),
+      'description' => t('Administer the settings and data for the copyright block.'),
+    ),
+  );
+}
+
+/**
  * Implements hook_menu().
  */
 function site_copyright_menu() {
-  $items['admin/config/system/site_copyright'] = array(
+  $items['admin/config/system/site-copyright'] = array(
     'title' => t('Site Copyright'),
+    'description' => 'Configure the site copyright information.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('site_copyright_configure'),
-    // Use the default/standard site configuration permission.
-    'access arguments' => array('administer site configuration'),
+    'access arguments' => array('administer site copyright'),
     'type' => MENU_NORMAL_ITEM,
     'file' => 'site_copyright.admin.inc',
     'file path' => drupal_get_path('module', 'site_copyright'),
   );
+
   return $items;
 }
 
@@ -23,16 +36,16 @@ function site_copyright_menu() {
 function site_copyright_theme() {
   return array(
     'site_copyright' => array(
-      // Specify variables you'll be using in the template
+      // Specify variables you'll be using in the template.
       'variables' => array(
         // NULL is correct. Values set here are stored in Theme Registry.
-        'copyright' => NULL,
-        'copyright_start' => NULL,
-        'copyright_end' => NULL,
+        'owner' => NULL,
+        'start' => NULL,
+        'end' => NULL,
         'phone' => NULL,
         'address' => NULL,
       ),
-      // Use a template file called site_copyright.tpl.php
+      // Use a template file called site-copyright.tpl.php.
       'template' => 'templates/site_copyright',
     ),
   );
@@ -42,9 +55,12 @@ function site_copyright_theme() {
  * Implements hook_block_info().
  */
 function site_copyright_block_info() {
+
   $blocks['site_copyright'] = array(
     'info' => t('Site Copyright'),
+    'cache' => DRUPAL_CACHE_GLOBAL,
   );
+
   return $blocks;
 }
 
@@ -54,9 +70,6 @@ function site_copyright_block_info() {
 function site_copyright_block_view($delta = '') {
   $block = array();
 
-  // Depending on the specified delta return the correct block content.
-  // Note: This switch is not required if you have only one block, you can
-  // simply return the the block array
   switch ($delta) {
     case 'site_copyright':
       // We don't want the block to have a title.
@@ -66,13 +79,14 @@ function site_copyright_block_view($delta = '') {
         // Specify the theme function to use.
         '#theme' => 'site_copyright',
         // Provide variable values as specified in hook_theme.
-        '#copyright' => check_plain(variable_get('site_copyright_copyright', 'Company Name')),
-        '#copyright_start' => check_plain(variable_get('site_copyright_copyright_start', '1885')),
+        '#copyright' => check_plain(variable_get('site_copyright_owner', 'Company Name')),
+        '#copyright_start' => check_plain(variable_get('site_copyright_start', '1885')),
         '#copyright_end' => format_date(time(), 'custom' , 'Y'),
         '#phone' => check_plain(variable_get('site_copyright_phone', '555-867-5309')),
         '#address' => check_plain(variable_get('site_copyright_address', '123 Main St. North Pole')),
       );
       break;
   }
+
   return $block;
 }

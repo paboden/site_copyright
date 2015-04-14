@@ -7,8 +7,8 @@
 ?>
 
 <span class="copyright">
-  &copy;<?php echo $copyright_start;?> - <?php echo $copyright_end;?>
-  <?php echo $copyright;?>
+  &copy;<?php echo $start;?> - <?php echo $end;?>
+  <?php echo $owner;?>
 </span>
 |
 <span class="phone">
