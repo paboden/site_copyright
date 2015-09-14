@@ -74,8 +74,24 @@ function site_copyright_block_view($delta = '') {
     case 'site_copyright':
       // We don't want the block to have a title.
       $block['subject'] = '<none>';
-      // Using a Renderable Array rather than a HTML-returning callback function.
-      $block['content'] = array(
+      // Using callback function that returns renderable array. We use a callback
+      // function so that we can try to cache the data for faster block rendering.
+      $block['content'] = site_copyright_block_contents();
+      break;
+  }
+
+  return $block;
+}
+
+function site_copyright_block_contents() {
+  $contents = &drupal_static(__FUNCTION__);
+
+  if (!isset($contents)) {
+    if ($cache = cache_get('site_copyright_block_content')) {
+      $contents = $cache->data;
+    }
+    else {
+      $contents = array(
         // Specify the theme function to use.
         '#theme' => 'site_copyright',
         // Provide variable values as specified in hook_theme.
@@ -85,8 +101,9 @@ function site_copyright_block_view($delta = '') {
         '#phone' => check_plain(variable_get('site_copyright_phone', '555-867-5309')),
         '#address' => check_plain(variable_get('site_copyright_address', '123 Main St. North Pole')),
       );
-      break;
+      cache_set('site_copyright_block_content', $contents, 'cache');
+    }
   }
 
-  return $block;
+  return $contents;
 }
