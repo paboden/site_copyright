@@ -76,22 +76,25 @@ function site_copyright_block_view($delta = '') {
       $block['subject'] = '<none>';
       // Using callback function that returns renderable array. We use a callback
       // function so that we can try to cache the data for faster block rendering.
-      $block['content'] = site_copyright_block_contents();
+      $block['content'] = site_copyright_block_content();
       break;
   }
 
   return $block;
 }
 
-function site_copyright_block_contents() {
-  $contents = &drupal_static(__FUNCTION__);
+/**
+ * Callback function to get the renderable array of data for the site copyright block.
+ */
+function site_copyright_block_content() {
+  $content = &drupal_static(__FUNCTION__);
 
-  if (!isset($contents)) {
+  if (!isset($content)) {
     if ($cache = cache_get('site_copyright_block_content')) {
-      $contents = $cache->data;
+      $content = $cache->data;
     }
     else {
-      $contents = array(
+      $content = array(
         // Specify the theme function to use.
         '#theme' => 'site_copyright',
         // Provide variable values as specified in hook_theme.
@@ -101,9 +104,9 @@ function site_copyright_block_contents() {
         '#phone' => check_plain(variable_get('site_copyright_phone', '555-867-5309')),
         '#address' => check_plain(variable_get('site_copyright_address', '123 Main St. North Pole')),
       );
-      cache_set('site_copyright_block_content', $contents, 'cache');
+      cache_set('site_copyright_block_content', $content, 'cache');
     }
   }
 
-  return $contents;
+  return $content;
 }
