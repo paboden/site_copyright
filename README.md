@@ -1,22 +1,14 @@
 # Site copyright
 
----
-
 This is an both a usable and example module for building a simple module. This module creates a config form with system variables, a block to display the config data, and themes the block using a proper template file.
-
----
 
 ## Config
 
 Set a copyright owner, start year, phone number and address
 
----
-
 ## Block
 
-Place block where your copyright is needed
-
----
+Place block where your copyright is needed.
 
 ## Template
 
