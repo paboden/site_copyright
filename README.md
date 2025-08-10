@@ -1,4 +1,4 @@
-#Site copyright
+# Site copyright
 
 ---
 
@@ -6,18 +6,18 @@ This is an both a usable and example module for building a simple module. This m
 
 ---
 
-###Config
+## Config
 
 Set a copyright owner, start year, phone number and address
 
 ---
 
-###Block
+## Block
 
 Place block where your copyright is needed
 
 ---
 
-###Template
+## Template
 
 To override the template, copy the site-copyright.tpl.php file into your own theme and adjust as necessary.
